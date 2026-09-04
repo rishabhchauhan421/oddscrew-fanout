@@ -21,11 +21,7 @@ class PromptRequest(BaseModel):
     prompt: str
 
 
-# Catch root path and any sub-path Vercel forwards
-@app.get("/")
 @app.post("/")
-@app.post("/api")
-@app.post("/api/index")
 async def analyze_fanout(data: PromptRequest):
     try:
         response = client.models.generate_content(
