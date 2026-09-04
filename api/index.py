@@ -7,10 +7,9 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# Enable CORS for your WordPress website
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace with "https://yourwordpresssite.com"
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -22,7 +21,10 @@ class PromptRequest(BaseModel):
     prompt: str
 
 
-@app.post("/api/index")  # Vercel routes /api/index.py to this path
+# Adding multiple routes so it matches regardless of Vercel's rewrite behavior
+@app.post("/")
+@app.post("/api")
+@app.post("/api/index")
 async def analyze_fanout(data: PromptRequest):
     try:
         response = client.models.generate_content(
