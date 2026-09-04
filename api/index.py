@@ -21,7 +21,8 @@ class PromptRequest(BaseModel):
     prompt: str
 
 
-# Adding multiple routes so it matches regardless of Vercel's rewrite behavior
+# Catch root path and any sub-path Vercel forwards
+@app.get("/")
 @app.post("/")
 @app.post("/api")
 @app.post("/api/index")
